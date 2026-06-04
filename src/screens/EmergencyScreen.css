@@ -1,8 +1,8 @@
 .emergency-screen { width: 100%; height: 100%; min-height: 0; overflow: hidden; background: #15171f; }
-.emergency-header { position: absolute; top: 40px; left: 50px; right: 53px; display: flex; align-items: center; }
+.emergency-header { position: absolute; top: 40px; left: 62px; right: 53px; display: flex; align-items: center; }
 .emergency-header h1 { margin: 0 0 0 21px; font-size: 35px; font-weight: 600; line-height: 1.2; text-shadow: 0 0 3.5px #72c87a; }
 .emergency-header h1 strong { color: var(--green); }
-.emergency-header time { margin-left: auto; color: #f2ede9; font-size: 24px; font-weight: 600; }
+.emergency-header time { align-self: flex-start; margin-left: auto; color: #f2ede9; font-size: 25px; font-weight: 600; line-height: 29px; }
 .emergency-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
 .emergency-back-link { position: absolute; z-index: 8; left: 23px; bottom: 8px; border: 0; background: transparent; color: #747781; font-size: 10px; opacity: .45; }
 
@@ -12,8 +12,19 @@
 .emergency-map { position: absolute; top: 70px; left: 20px; width: 607px; height: 416px; overflow: hidden; border: 2.66px solid #2d333d; border-radius: 9px; }
 .emergency-map-image { display: block; width: 100%; height: 100%; object-fit: cover; }
 .emergency-map-route { position: absolute; inset: 0; width: 100%; height: 100%; }
-.emergency-route-solid { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; filter: url(#emergency-route-glow); }
-.emergency-route-dashed { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 4; stroke-dasharray: 7 8; }
+.emergency-route-solid { fill: none; stroke: var(--green); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; filter: url(#emergency-route-glow); opacity: 1; }
+.emergency-route-dashed {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 10 18;
+  stroke-dashoffset: 0;
+  opacity: .95;
+  animation: emergency-route-flow 1.55s linear infinite;
+}
+.emergency-route-tail { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 4; stroke-dasharray: 7 8; }
 .emergency-route-dot { fill: var(--green); }
 .emergency-eta { position: absolute; top: 26px; left: 317px; color: var(--green); font-size: 25px; font-weight: 500; text-shadow: 0 0 4px var(--green); }
 .emergency-station-label { position: absolute; top: 278px; left: 39px; font-size: 25px; font-weight: 500; }
@@ -48,7 +59,33 @@
 .emergency-urgent-guide p { display: grid; gap: 8px; margin: 0 0 0 15px; }
 .emergency-urgent-guide b { font-size: 17px; }
 .emergency-urgent-guide small { color: #e1e1e4; font-size: 12px; line-height: 1.25; }
-.emergency-done-guide { position: absolute; left: 29px; margin: 0; color: var(--green); font-size: 17px; }
-.emergency-done-guide span { margin-left: 16px; color: #8f9199; font-size: 14px; text-decoration: line-through; }
-.emergency-done-guide:nth-of-type(1) { top: 188px; }
-.emergency-done-guide:nth-of-type(2) { top: 220px; }
+.emergency-guide-checklist { position: absolute; top: 182px; left: 29px; right: 28px; display: grid; gap: 11px; }
+.emergency-guide-item { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; margin: 0; column-gap: 14px; font-size: 16px; }
+.emergency-guide-mark {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1.5px solid #5b5f69;
+  border-radius: 999px;
+  color: transparent;
+  font-size: 14px;
+  line-height: 1;
+}
+.emergency-guide-text { color: #d7d9de; font-size: 14px; }
+.emergency-guide-item small { color: #7c818c; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.emergency-guide-item.is-done .emergency-guide-mark { border-color: var(--green); background: var(--green); color: #08110d; }
+.emergency-guide-item.is-done .emergency-guide-text { color: #8f9199; }
+.emergency-guide-item.is-done small { color: var(--green); }
+.emergency-guide-item.is-pending .emergency-guide-mark { box-shadow: inset 0 0 0 1px rgba(255,255,255,.02); }
+.emergency-guide-item.is-pending .emergency-guide-text { color: #f1f2f4; font-weight: 500; }
+.emergency-guide-item.is-pending small { color: #f6b8bf; }
+
+@keyframes emergency-route-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -28;
+  }
+}

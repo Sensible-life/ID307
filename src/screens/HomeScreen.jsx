@@ -8,18 +8,9 @@ const services = [
   { icon: "↯", title: "에너지", detail: "오늘 8.4 kWh", state: "절약 중" },
 ];
 
-export default function HomeScreen({ onAlert }) {
+export function HomeScreenContent({ showHint = true }) {
   return (
-    <main
-      className="screen home-screen"
-      onClick={onAlert}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") onAlert();
-      }}
-      role="button"
-      tabIndex={0}
-      aria-label="화면을 터치하여 재난 발생 프로토타입 시작"
-    >
+    <>
       <header className="home-header">
         <div className="home-brand"><span />SEOCHO HANSHIN <small>1402</small></div>
         <div className="home-header-state"><i />모든 시스템 정상</div>
@@ -51,7 +42,24 @@ export default function HomeScreen({ onAlert }) {
         <div><span>엘리베이터</span><strong>1층</strong><small>정상 운행</small></div>
       </section>
 
-      <p className="home-prototype-hint">화면을 터치하면 재난 상황 프로토타입이 시작됩니다</p>
+      {showHint && <p className="home-prototype-hint">화면을 터치하면 재난 상황 프로토타입이 시작됩니다</p>}
+    </>
+  );
+}
+
+export default function HomeScreen({ onAlert }) {
+  return (
+    <main
+      className="screen home-screen"
+      onClick={onAlert}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") onAlert();
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label="화면을 터치하여 재난 발생 프로토타입 시작"
+    >
+      <HomeScreenContent />
     </main>
   );
 }

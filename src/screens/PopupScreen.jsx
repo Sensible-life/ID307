@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { HomeScreenContent } from "./HomeScreen";
 import "./PopupScreen.css";
 
 const checks = [
@@ -28,6 +29,12 @@ export default function PopupScreen({ onComplete }) {
         if (step < checks.length && (event.key === "Enter" || event.key === " ")) handleNext();
       }}
     >
+      <div className="popup-screen__home" aria-hidden="true">
+        <div className="screen home-screen popup-screen__home-surface">
+          <HomeScreenContent showHint={false} />
+        </div>
+      </div>
+      <div className="popup-screen__scrim" aria-hidden="true" />
       <section className="alert-card" aria-label="화재 경보 상황 확인">
         <div className="alert-card__head">
           <div className="danger-pill"><span />화재 경보 감지</div>

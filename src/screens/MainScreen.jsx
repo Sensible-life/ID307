@@ -24,10 +24,20 @@ export default function MainScreen({ onCall, onBack }) {
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
+          <marker
+            id="route-arrowhead"
+            markerWidth="24"
+            markerHeight="24"
+            refX="18"
+            refY="12"
+            orient="auto"
+            markerUnits="userSpaceOnUse"
+          >
+            <path className="route-arrowhead" d="M1 1 L23 12 L1 23 Z" />
+          </marker>
         </defs>
         <path className="route-solid" d="M96 166 L29 101 L77 53 L29 6" />
-        <path className="route-dashed" d="M96 166 L29 101 L77 53 L29 6" />
-        <polygon className="route-arrowhead" points="29,0 12,29 46,29" />
+        <path className="route-dashed" d="M96 166 L29 101 L77 53 L29 6" markerEnd="url(#route-arrowhead)" />
       </svg>
       <span className="map-room room-1402-left">1402</span>
       <span className="map-room room-1402-current">1402</span>

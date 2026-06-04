@@ -1,5 +1,47 @@
-.popup-screen { width: 100%; height: 100%; min-height: 0; display: grid; place-items: center; padding: 32px; background: radial-gradient(circle at center, rgba(236, 13, 38, .13), transparent 50%), #080a10; cursor: pointer; user-select: none; }
-.alert-card { width: min(570px, 100%); overflow: hidden; border: 1px solid #343944; border-radius: 26px; background: linear-gradient(#181c27, #10131b); box-shadow: 0 28px 90px #000, 0 0 50px rgba(255, 0, 34, .12); }
+.popup-screen {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  cursor: pointer;
+  user-select: none;
+  isolation: isolate;
+  background: #080a10;
+}
+.popup-screen__home,
+.popup-screen__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.popup-screen__home {
+  z-index: 0;
+  overflow: hidden;
+}
+.popup-screen__home-surface {
+  filter: blur(10px) saturate(.84);
+  transform: scale(1.03);
+}
+.popup-screen__scrim {
+  z-index: 1;
+  background:
+    radial-gradient(circle at center, rgba(255, 24, 48, .16), transparent 40%),
+    linear-gradient(180deg, rgba(8, 10, 16, .28), rgba(8, 10, 16, .58));
+  backdrop-filter: blur(2px);
+}
+.alert-card {
+  position: relative;
+  z-index: 2;
+  width: min(570px, 100%);
+  overflow: hidden;
+  border: 1px solid #343944;
+  border-radius: 26px;
+  background: linear-gradient(#181c27, #10131b);
+  box-shadow: 0 28px 90px #000, 0 0 50px rgba(255, 0, 34, .12);
+}
 .alert-card__head { padding: 28px 32px 24px; border-bottom: 1px solid #30343e; background: linear-gradient(160deg, rgba(255, 18, 44, .13), transparent 58%); }
 .danger-pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid rgba(255, 62, 81, .5); border-radius: 999px; color: #ff6372; background: rgba(255, 20, 45, .1); font-size: 13px; font-weight: 800; }
 .danger-pill span { width: 8px; height: 8px; border-radius: 50%; background: #ff263c; box-shadow: 0 0 10px #ff263c; }

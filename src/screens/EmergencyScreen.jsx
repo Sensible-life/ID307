@@ -9,6 +9,10 @@ const timeline = [
   ["En Route", "02:58"],
   ["On Site", "03:00"],
 ];
+const guideChecklist = [
+  { label: "Close all doors to the hallway", done: false },
+  { label: "Seal door gaps with wet towels", done: true },
+];
 
 function RouteMap() {
   return (
@@ -22,7 +26,8 @@ function RouteMap() {
           </filter>
         </defs>
         <path d="M105 338 L205 274 L188 80 L430 80" className="emergency-route-solid" />
-        <path d="M430 80 L438 198 L520 198" className="emergency-route-dashed" />
+        <path d="M105 338 L205 274 L188 80 L430 80" className="emergency-route-dashed" />
+        <path d="M430 80 L438 198 L520 198" className="emergency-route-tail" />
         <circle cx="430" cy="80" r="11" className="emergency-route-dot" />
       </svg>
       <span className="emergency-eta">ETA 03:00</span>
@@ -84,8 +89,15 @@ export default function EmergencyScreen({ onBack }) {
             <small>Soak a thick towel. Hold it over your mouth and nose. Breathe slowly<br />through it - this filters most smoke.</small>
           </p>
         </div>
-        <p className="emergency-done-guide">✓ <span>Close all doors to the hallway</span></p>
-        <p className="emergency-done-guide">✓ <span>Seal door gaps with wet towels</span></p>
+        <div className="emergency-guide-checklist">
+          {guideChecklist.map((item) => (
+            <p className={`emergency-guide-item ${item.done ? "is-done" : "is-pending"}`} key={item.label}>
+              <span className="emergency-guide-mark" aria-hidden="true">{item.done ? "✓" : ""}</span>
+              <span className="emergency-guide-text">{item.label}</span>
+              <small>{item.done ? "Done" : "To do"}</small>
+            </p>
+          ))}
+        </div>
       </section>
     </main>
   );
