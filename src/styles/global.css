@@ -1,0 +1,22 @@
+:root {
+  color-scheme: dark;
+  font-family: "Noto Sans KR", system-ui, sans-serif;
+  --bg: #11141f;
+  --panel: #191c25;
+  --line: #383d49;
+  --muted: #92949e;
+  --green: #00eb72;
+  --red: #ef0010;
+}
+
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; }
+body { display: grid; margin: 0; overflow: hidden; place-items: center; background: #080a10; color: #f7f7f8; }
+#root { position: relative; width: min(100vw, calc(100vh * 1.675), 1340px); aspect-ratio: 1340 / 800; max-height: 800px; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.screen { position: relative; width: 100%; height: 100%; min-height: 0; background: radial-gradient(circle at 70% 55%, #171c2b 0, var(--bg) 42%, #10131e 80%); }
+.topbar { position: absolute; z-index: 5; top: 36px; left: 62px; right: 53px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 14px; font-weight: 700; }
+.topbar time { color: #fff; font-size: 25px; }
+.live-label { display: flex; align-items: center; gap: 21px; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.back-link { align-self: center; margin-top: 13px; border: 0; background: transparent; color: #8d9099; text-decoration: underline; }

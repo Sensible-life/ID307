@@ -1,0 +1,595 @@
+/* Evacuate Map - Ver1 */
+
+box-sizing: border-box;
+
+position: relative;
+width: 1340px;
+height: 800px;
+
+background: #121521;
+border: 1px solid #000000;
+border-radius: 15px;
+
+
+/* image 49 */
+
+position: absolute;
+width: 703px;
+height: 711px;
+left: 614px;
+top: 56px;
+
+background: url(image.png);
+
+
+/* Group 24 */
+
+position: absolute;
+width: 552px;
+height: 357px;
+left: 62px;
+top: 213px;
+
+
+
+/* 계단을 통해 상층으로 대피하세요. */
+
+position: absolute;
+width: 552px;
+height: 357px;
+left: 62px;
+top: 213px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 100px;
+line-height: 119px;
+
+color: #00EA67;
+
+
+
+/* 계단 */
+
+position: absolute;
+width: 551.87px;
+height: 119px;
+left: 62px;
+top: 213px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 700;
+font-size: 100px;
+line-height: 119px;
+
+color: #00EA67;
+
+text-shadow: 0px 0px 7.5px #00EA67;
+
+
+/* Group 33 */
+
+position: absolute;
+width: 166px;
+height: 17px;
+left: 62px;
+top: 46px;
+
+
+
+/* Ellipse 11 */
+
+position: absolute;
+width: 7px;
+height: 7px;
+left: 62px;
+top: 51px;
+
+background: #00EA67;
+box-shadow: 0px 0px 7.5px #00EA67;
+
+
+/* 마지막 업데이트 19:41 */
+
+position: absolute;
+width: 138px;
+height: 17px;
+left: 90px;
+top: 46px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 17px;
+/* identical to box height */
+
+color: #92939C;
+
+
+
+/* Group 30 */
+
+position: absolute;
+width: 71.58px;
+height: 159.18px;
+left: 975.1px;
+top: 426.2px;
+
+filter: drop-shadow(0px 0px 5px #00EA67);
+
+
+/* Arrow 19 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 67.99px;
+height: 0px;
+left: 977.24px;
+top: 426.2px;
+
+border: 6px solid #00EA67;
+transform: rotate(-135deg);
+
+
+/* Line 5 */
+
+position: absolute;
+width: 70.26px;
+height: 0px;
+left: 975.1px;
+top: 470px;
+
+border: 6px solid #00EA67;
+transform: rotate(135.62deg);
+
+
+/* Line 6 */
+
+position: absolute;
+width: 97.45px;
+height: 0px;
+left: 978.31px;
+top: 515.94px;
+
+border: 6px solid #00EA67;
+transform: rotate(-134.56deg);
+
+
+/* Group 31 */
+
+position: absolute;
+width: 68.2px;
+height: 125.81px;
+left: 953.54px;
+top: 449.64px;
+
+filter: drop-shadow(0px 0px 5px #00EA67);
+transform: rotate(-46.13deg);
+
+
+/* Arrow 19 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 34.75px;
+height: 0px;
+left: 1000.74px;
+top: 449.7px;
+
+border: 2px dashed #FFFFFF;
+transform: rotate(-135deg);
+
+
+/* Line 5 */
+
+position: absolute;
+width: 67.24px;
+height: 0px;
+left: 977.24px;
+top: 473.2px;
+
+border: 2px dashed #FFFFFF;
+transform: rotate(135.64deg);
+
+
+/* Line 6 */
+
+position: absolute;
+width: 93.89px;
+height: 0px;
+left: 978.31px;
+top: 519.14px;
+
+border: 2px dashed #FFFFFF;
+transform: rotate(-134.6deg);
+
+
+/* Ellipse 5 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 1045px;
+top: 587px;
+
+border: 5px solid #00EA67;
+filter: drop-shadow(0px 0px 5px #00EA67);
+
+
+/* 1402 */
+
+position: absolute;
+width: 40px;
+height: 20px;
+left: 754px;
+top: 480px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 19px;
+
+color: #4C494E;
+
+
+
+/* 1402 */
+
+position: absolute;
+width: 40px;
+height: 21px;
+left: 1039px;
+top: 625px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 19px;
+
+color: #00EA67;
+
+text-shadow: 0px 0px 3px #00EA67;
+
+
+/* 1402 */
+
+position: absolute;
+width: 39px;
+height: 21px;
+left: 1164px;
+top: 508px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 19px;
+
+color: #4E4D51;
+
+
+
+/* 1404 */
+
+position: absolute;
+width: 41px;
+height: 20px;
+left: 1026px;
+top: 209px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 19px;
+
+color: #504E52;
+
+
+
+/* 현재 위치 */
+
+position: absolute;
+width: 80px;
+height: 27px;
+left: 950px;
+top: 584px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+
+color: #00EA67;
+
+text-shadow: 0px 0px 3px #00EA67;
+
+
+/* 19:42 */
+
+position: absolute;
+width: 63px;
+height: 29px;
+left: 1224px;
+top: 40px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 29px;
+/* identical to box height */
+
+color: #F2EDE9;
+
+
+
+/* Group 71 */
+
+position: absolute;
+width: 309px;
+height: 30px;
+left: 694px;
+top: 713px;
+
+
+
+/* Rectangle 109 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 309px;
+height: 30px;
+left: 694px;
+top: 713px;
+
+background: #1B1B22;
+border: 1px solid #2A2A32;
+border-radius: 8px;
+
+
+/* Group 26 */
+
+position: absolute;
+width: 67px;
+height: 14px;
+left: 708px;
+top: 721px;
+
+
+
+/* Rectangle 110 */
+
+position: absolute;
+width: 15px;
+height: 8px;
+left: 708px;
+top: 724px;
+
+background: #22C55E;
+box-shadow: 0px 0px 5px #00EA67;
+border-radius: 3px;
+
+
+/* 안전 경로 */
+
+position: absolute;
+width: 45px;
+height: 14px;
+left: 730px;
+top: 721px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 14px;
+
+color: #CBCED8;
+
+
+
+/* Group 27 */
+
+position: absolute;
+width: 120px;
+height: 14px;
+left: 789px;
+top: 721px;
+
+
+
+/* Rectangle 110 */
+
+position: absolute;
+width: 15px;
+height: 8px;
+left: 789px;
+top: 724px;
+
+background: #EF4444;
+box-shadow: 0px 0px 5px #F2435B;
+border-radius: 3px;
+
+
+/* 화재 위치 · 사용 불가 */
+
+position: absolute;
+width: 98px;
+height: 14px;
+left: 811px;
+top: 721px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 14px;
+
+color: #CBCED8;
+
+
+
+/* Group 28 */
+
+position: absolute;
+width: 67px;
+height: 14px;
+left: 923px;
+top: 721px;
+
+
+
+/* Rectangle 110 */
+
+position: absolute;
+width: 15px;
+height: 8px;
+left: 923px;
+top: 724px;
+
+background: #FCD34D;
+box-shadow: 0px 0px 5px #FCD34D;
+border-radius: 3px;
+
+
+/* 연기 구역 */
+
+position: absolute;
+width: 45px;
+height: 14px;
+left: 945px;
+top: 721px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 14px;
+
+color: #CBCED8;
+
+
+
+/* Group 72 */
+
+position: absolute;
+width: 608px;
+height: 139px;
+left: 56px;
+top: 612px;
+
+
+
+/* Rectangle 116 */
+
+position: absolute;
+width: 608px;
+height: 139px;
+left: 56px;
+top: 612px;
+
+background: radial-gradient(35.25% 35.2% at 50.28% 49.58%, #FF0015 4.81%, #E00408 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+box-shadow: 0px 0px 6px #FF0015;
+border-radius: 12px;
+
+
+/* 구조 요청 */
+
+position: absolute;
+width: 259px;
+height: 84px;
+left: 305px;
+top: 622px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 700;
+font-size: 70px;
+line-height: 84px;
+/* identical to box height */
+
+color: #FFFFFF;
+
+
+
+/* Group 32 */
+
+position: absolute;
+width: 130px;
+height: 54px;
+left: 155px;
+top: 634px;
+
+
+
+/* Rectangle 117 */
+
+position: absolute;
+width: 130px;
+height: 54px;
+left: 155px;
+top: 634px;
+
+background: #FFFFFF;
+box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.25);
+border-radius: 10px;
+
+
+/* image 46 */
+
+position: absolute;
+width: 105.85px;
+height: 51.73px;
+left: 169.14px;
+top: 635.06px;
+
+background: url(image);
+
+
+/* 스스로 대피할 수 없어요 */
+
+position: absolute;
+width: 235px;
+height: 30px;
+left: 242px;
+top: 702px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 30px;
+/* identical to box height */
+
+color: #FFFFFF;
+
+
+
+/* 5층 화재 발생 승강기 사용 불가 */
+
+position: absolute;
+width: 315px;
+height: 115px;
+left: 62px;
+top: 92px;
+
+font-family: 'Pretendard';
+font-style: normal;
+font-weight: 600;
+font-size: 40px;
+line-height: 48px;
+
+color: #FFFFFF;
+

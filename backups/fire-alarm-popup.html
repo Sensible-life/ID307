@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>화재 경보 — 팝업 → 전체화면 대피 대시보드 v4</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --wall-0:#07090F; --wall-1:#0B1018; --wall-2:#10151E; --wall-3:#161C26;
+    --glass-1:rgba(255,255,255,.04); --glass-2:rgba(255,255,255,.06); --glass-3:rgba(255,255,255,.09);
+    --hair:rgba(255,255,255,.09); --hair-2:rgba(255,255,255,.16);
+    --fg-1:#F3F1EC; --fg-2:#C7CAD1; --fg-3:#8B919B; --fg-4:#5A6068;
+    --amber:#FFB300; --amber-2:#FFCD4D;
+    --mint:#00E676; --mint-2:#3DF58E; --mint-glow:#09FFC6;
+    --blue:#5B8DEF; --blue-2:#86AEFF;
+    --red:#FF2A36; --red-2:#FF5B66; --red-deep:#CB1515;
+    --r-1:9px; --r-2:14px; --r-3:20px; --r-4:26px; --r-btn:13px;
+    --dur-fast:130ms; --dur-med:260ms; --dur-slow:520ms;
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --font:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--wall-0); font-family:var(--font); color:var(--fg-1);
+    letter-spacing:-.015em; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+  /* ============ SCRIM + POPUP ============ */
+  .scrim{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; overflow-y:auto; padding:24px 24px 96px;
+    background:
+      radial-gradient(72% 60% at 50% 40%, var(--amb,rgba(255,42,54,.13)) 0%, rgba(255,42,54,.03) 46%, transparent 72%),
+      radial-gradient(120% 90% at 90% 110%, rgba(255,42,54,.06), transparent 55%), var(--wall-0);
+    overflow-x:hidden; transition:opacity .34s var(--ease); z-index:10; }
+  .scrim::after{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px);
+    mix-blend-mode:soft-light; opacity:.5; }
+  body.tsize-m{ --cz:1; } body.tsize-l{ --cz:1.15; } body.tsize-xl{ --cz:1.32; }
+  body.tone-urgent{ --amb:rgba(255,42,54,.26); }
+  body.tone-calm{ --amb:rgba(255,42,54,.12); }
+  body.scn-far{ --amb:rgba(255,42,54,.12); }
+  body.dash-open .scrim{ opacity:0; pointer-events:none; }
+
+  .card{ position:relative; width:min(560px,100%); margin:auto; zoom:var(--cz,1.15);
+    background:linear-gradient(180deg,var(--wall-3),var(--wall-1));
+    border:1px solid var(--hair-2); border-radius:var(--r-4);
+    box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,42,54,.10), 0 0 70px rgba(255,42,54,.14);
+    overflow:hidden; transition:transform .34s var(--ease), opacity .34s var(--ease); }
+  body.expanding .card{ transform:scale(1.04); opacity:0; }
+  .card::before{ content:''; position:absolute; left:0; right:0; top:0; height:3px;
+    background:linear-gradient(90deg,transparent,var(--accent,var(--red)),transparent); opacity:.9; animation:scan 2.6s var(--ease) infinite; }
+  @keyframes scan{ 0%{ transform:translateX(-30%); opacity:0; } 20%,80%{ opacity:.9; } 100%{ transform:translateX(30%); opacity:0; } }
+  body.tone-calm .card::before{ animation-duration:4.2s; opacity:.6; }
+  body{ --accent:var(--red); --accent-2:var(--red-2); }
+
+  /* header */
+  .hdr{ padding:22px 26px 20px; border-bottom:1px solid var(--hair);
+    background:linear-gradient(180deg, color-mix(in srgb,var(--accent) 8%, transparent), transparent 90%); }
+  .hdr-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; }
+  .status{ display:inline-flex; align-items:center; gap:9px; font-size:13.5px; font-weight:800; letter-spacing:.01em;
+    color:var(--accent-2); text-shadow:0 0 14px color-mix(in srgb,var(--accent) 55%, transparent);
+    padding:7px 12px 7px 11px; background:color-mix(in srgb,var(--accent) 12%, transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 32%, transparent); border-radius:999px; }
+  .status .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); filter:drop-shadow(0 0 6px var(--accent)); animation:beat 1.5s var(--ease) infinite; }
+  @keyframes beat{ 0%{ box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 60%, transparent); } 70%{ box-shadow:0 0 0 9px transparent; } 100%{ box-shadow:0 0 0 0 transparent; } }
+  .hdr-floor{ margin-top:16px; display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap; }
+  .floor-num{ font-size:64px; font-weight:800; line-height:.92; letter-spacing:-.04em; }
+  .floor-num .unit{ font-size:34px; font-weight:800; margin-left:2px; color:var(--fg-2); }
+  .floor-en{ font-size:15px; font-weight:700; color:var(--fg-3); padding-bottom:8px; font-variant-numeric:tabular-nums; }
+  .hdr-say{ margin:10px 0 0; font-size:21px; font-weight:600; color:var(--fg-2); letter-spacing:-.02em; text-wrap:pretty; }
+
+  /* body */
+  .body{ padding:22px 26px 24px; }
+
+  /* collecting */
+  .collect-lbl{ display:flex; align-items:center; gap:10px; font-size:16px; font-weight:800; letter-spacing:-.01em; }
+  .collect-lbl .spin{ width:17px; height:17px; flex:none; border-radius:50%; border:2.5px solid rgba(255,255,255,.16); border-top-color:var(--amber); animation:spin .8s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .collect-sub{ margin:6px 0 18px; font-size:14px; color:var(--fg-3); font-weight:600; text-wrap:pretty; }
+  body.scn-own .collect-sub{ color:var(--amber-2); font-weight:700; }
+  .checks{ display:grid; gap:2px; }
+  .chk{ display:grid; grid-template-columns:26px 1fr auto; align-items:center; gap:12px; padding:13px 4px; border-bottom:1px solid var(--hair); transition:opacity var(--dur-med) var(--ease); }
+  .chk:last-child{ border-bottom:0; }
+  .chk[data-state="pending"]{ opacity:.4; }
+  .chk-ic{ width:26px; height:26px; border-radius:50%; display:grid; place-items:center; flex:none; background:var(--glass-2); border:1px solid var(--hair); color:var(--fg-4); transition:all var(--dur-med) var(--ease); }
+  .chk[data-state="checking"] .chk-ic{ border-color:rgba(255,179,0,.45); color:var(--amber); background:rgba(255,179,0,.10); }
+  .chk[data-state="done"] .chk-ic{ border-color:rgba(0,230,118,.4); color:#04130a; background:var(--mint); }
+  .chk-ic .tick,.chk-ic .ring,.chk-ic .wait{ display:none; }
+  .chk[data-state="pending"] .chk-ic .wait{ display:block; width:5px; height:5px; border-radius:50%; background:currentColor; }
+  .chk[data-state="checking"] .chk-ic .ring{ display:block; width:13px; height:13px; border-radius:50%; border:2.2px solid rgba(255,179,0,.25); border-top-color:var(--amber); animation:spin .7s linear infinite; }
+  .chk[data-state="done"] .chk-ic .tick{ display:block; }
+  .chk-txt{ font-size:15.5px; font-weight:650; letter-spacing:-.01em; }
+  .chk-meta{ font-size:12.5px; font-weight:700; color:var(--fg-4); font-variant-numeric:tabular-nums; }
+  .chk[data-state="done"] .chk-meta{ color:var(--mint-2); text-shadow:0 0 10px rgba(0,230,118,.4); }
+  .collect-foot{ margin-top:16px; display:flex; align-items:center; gap:10px; font-size:13px; color:var(--fg-4); font-weight:600; }
+  .collect-foot .bar{ flex:1; height:4px; border-radius:999px; overflow:hidden; background:var(--glass-2); }
+  .collect-foot .bar i{ display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--amber),var(--amber-2)); border-radius:999px; transition:width var(--dur-slow) var(--ease); }
+
+  /* ready CTA (after collecting) */
+  .ready{ margin-top:18px; }
+  .ready[hidden]{ display:none; }
+  .ready.enter{ animation:rise var(--dur-slow) var(--ease); }
+  @keyframes rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+  .expand{ position:relative; overflow:hidden; display:flex; align-items:center; gap:14px; width:100%; font-family:inherit; text-align:left; cursor:pointer;
+    border-radius:var(--r-btn); padding:17px 18px; border:1px solid rgba(255,90,100,.5);
+    background:linear-gradient(180deg,var(--red),#D81420); color:#fff;
+    box-shadow:0 14px 34px rgba(255,42,54,.34), inset 0 1px 0 rgba(255,255,255,.22);
+    transition:transform var(--dur-fast) var(--ease), filter var(--dur-fast) var(--ease); }
+  .expand:hover{ filter:brightness(1.06); }
+  .expand:active{ transform:scale(.99); }
+  .expand .bic{ width:40px; height:40px; border-radius:11px; flex:none; display:grid; place-items:center; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.22); }
+  .expand .bic svg{ width:21px; height:21px; }
+  .expand .btxt{ flex:1; min-width:0; }
+  .expand .bt{ display:block; font-size:18px; font-weight:850; letter-spacing:-.02em; text-shadow:0 1px 12px rgba(0,0,0,.35); }
+  .expand .bs{ display:block; font-size:12.5px; font-weight:650; color:rgba(255,255,255,.82); margin-top:3px; }
+  .expand .bchev{ width:20px; height:20px; color:rgba(255,255,255,.8); flex:none; }
+  /* false-alarm — full-width gradient button */
+  .falsebar{ margin-top:14px; }
+  .falsebar[hidden]{ display:none; }
+  .falsebtn{ display:flex; align-items:center; justify-content:center; gap:11px; width:100%;
+    font-family:inherit; font-size:18px; font-weight:850; letter-spacing:-.01em; color:#3A2705;
+    padding:18px 20px; border-radius:var(--r-btn); cursor:pointer;
+    background:linear-gradient(180deg, #FFDD7A 0%, var(--amber) 50%, #E08C00 100%);
+    border:1px solid rgba(255,214,110,.75);
+    box-shadow:0 14px 28px rgba(255,150,0,.32), inset 0 1.5px 0 rgba(255,255,255,.6), inset 0 -3px 7px rgba(150,80,0,.28);
+    transition:transform var(--dur-fast) var(--ease), filter var(--dur-fast) var(--ease); }
+  .falsebtn:hover{ filter:brightness(1.05); }
+  .falsebtn:active{ transform:translateY(1.5px); box-shadow:0 6px 14px rgba(255,150,0,.3), inset 0 1px 0 rgba(255,255,255,.45), inset 0 -2px 5px rgba(150,80,0,.25); }
+  .falsebtn svg{ width:21px; height:21px; }
+
+  /* confirmation toast inside card */
+  .reported{ margin-top:14px; display:none; align-items:center; gap:11px; padding:14px 16px; border-radius:var(--r-2);
+    background:rgba(0,230,118,.08); border:1px solid rgba(0,230,118,.3); box-shadow:0 0 22px rgba(0,230,118,.12); }
+  .reported.show{ display:flex; animation:rise var(--dur-med) var(--ease); }
+  .reported svg{ width:20px; height:20px; color:var(--mint-2); filter:drop-shadow(0 0 6px rgba(0,230,118,.6)); flex:none; }
+  .reported .rtxt{ font-size:14px; font-weight:700; color:var(--fg-1); }
+  .reported .rtxt small{ display:block; font-size:12px; font-weight:600; color:var(--fg-3); margin-top:2px; }
+
+  /* ============ MAIN SCREEN (placeholder) ============ */
+  .dash{ position:fixed; inset:0; z-index:20; display:flex; flex-direction:column;
+    background-color:#000; background-image:none;
+    opacity:0; visibility:hidden; transition:none; }
+  body.dash-open .dash{ opacity:1; visibility:visible; }
+  .main-stub{ flex:1; display:grid; place-items:center; }
+  .main-stub-txt{ font-size:44px; font-weight:800; letter-spacing:-.02em; color:#fff; }
+  .dash::after{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,.014) 0 1px, transparent 1px 3px); mix-blend-mode:soft-light; opacity:.5; }
+
+  /* YouTube-style scrubber */
+  .scrubber{ position:fixed; left:0; right:0; bottom:0; z-index:60; display:flex; align-items:center; gap:14px;
+    padding:18px 22px 16px; background:linear-gradient(180deg, transparent, rgba(0,0,0,.55) 45%, rgba(0,0,0,.78));
+    -webkit-user-select:none; user-select:none; }
+  .sc-btn{ flex:none; width:34px; height:34px; display:grid; place-items:center; background:transparent; border:0; color:#fff; cursor:pointer; border-radius:8px; }
+  .sc-btn:hover{ background:rgba(255,255,255,.12); }
+  .sc-btn svg{ width:24px; height:24px; }
+  .sc-restart svg{ width:19px; height:19px; }
+  .sc-play .ic-pause{ display:none; }
+  .scrubber.playing .sc-play .ic-play{ display:none; }
+  .scrubber.playing .sc-play .ic-pause{ display:block; }
+  .sc-track{ position:relative; flex:1; height:16px; display:flex; align-items:center; cursor:pointer; touch-action:none; }
+  .sc-rail{ position:absolute; left:0; right:0; height:4px; border-radius:999px; background:rgba(255,255,255,.30); }
+  .sc-fill{ position:absolute; left:0; height:4px; width:0%; border-radius:999px; background:var(--red); }
+  .sc-handle{ position:absolute; left:0; width:14px; height:14px; border-radius:50%; background:var(--red); transform:translateX(-50%) scale(.55);
+    box-shadow:0 0 8px rgba(255,42,54,.6); transition:transform .12s var(--ease); }
+  .sc-track:hover .sc-handle, .scrubber.dragging .sc-handle{ transform:translateX(-50%) scale(1); }
+  .sc-time{ flex:none; font-size:13px; font-weight:750; color:#fff; font-variant-numeric:tabular-nums; letter-spacing:.01em; min-width:78px; text-align:right; }
+
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; } }
+  @media (max-width:540px){
+    .floor-num{ font-size:50px; } .floor-num .unit{ font-size:28px; } .hdr-say{ font-size:18px; }
+  }
+  @media (max-height:680px){
+    .hdr{ padding:16px 24px 14px; }
+    .floor-num{ font-size:46px; } .floor-num .unit{ font-size:25px; }
+    .hdr-floor{ margin-top:10px; } .hdr-say{ font-size:18px; margin-top:7px; }
+    .body{ padding:16px 24px 18px; }
+    .chk{ padding:9px 4px; }
+  }
+
+  /* Tweaks */
+  .tweaks{ position:fixed; bottom:20px; right:20px; width:286px; background:rgba(14,18,25,.94); backdrop-filter:blur(20px) saturate(140%);
+    border:1px solid rgba(255,255,255,.10); border-radius:14px; color:var(--fg-1); box-shadow:0 20px 50px rgba(0,0,0,.5); z-index:1000;
+    transform:translateY(8px); opacity:0; pointer-events:none; transition:transform 220ms var(--ease), opacity 220ms var(--ease); }
+  .tweaks.visible{ transform:none; opacity:1; pointer-events:auto; }
+  .tw-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px 9px; border-bottom:1px solid rgba(255,255,255,.08); }
+  .tw-title{ font-size:11.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-3); }
+  .tw-close{ background:transparent; border:0; color:var(--fg-3); cursor:pointer; font-size:18px; line-height:1; padding:4px; border-radius:6px; }
+  .tw-close:hover{ background:rgba(255,255,255,.06); color:var(--fg-1); }
+  .tw-body{ padding:14px; display:grid; gap:14px; max-height:74vh; overflow:auto; }
+  .tw-row{ display:grid; gap:8px; }
+  .tw-label{ font-size:12px; color:var(--fg-3); font-weight:750; }
+  .tw-seg{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:3px; gap:2px; }
+  .tw-seg button{ background:transparent; border:0; cursor:pointer; font-family:inherit; font-size:12px; font-weight:700; color:var(--fg-3); padding:7px 5px; border-radius:6px; transition:background 120ms ease,color 120ms ease; }
+  .tw-seg button:hover{ color:var(--fg-1); }
+  .tw-seg button.on{ background:rgba(255,255,255,.10); color:#fff; }
+  .tw-num{ background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:8px 10px; color:var(--fg-1); font-family:inherit; font-size:14px; font-weight:700; outline:none; width:100%; }
+  .tw-num:focus{ border-color:var(--mint); }
+  .tw-note{ font-size:11px; color:var(--fg-4); font-weight:600; line-height:1.4; margin-top:-2px; }
+</style>
+</head>
+<body class="tone-calm scn-own">
+
+<!-- ============ POPUP ============ -->
+<div class="scrim" id="scrim" data-screen-label="01 Popup (collecting)">
+  <div class="card" role="alertdialog" aria-labelledby="floorTitle" aria-describedby="hdrSay">
+    <div class="hdr">
+      <div class="hdr-row">
+        <span class="status"><span class="dot"></span><span id="statusTxt"></span></span>
+      </div>
+      <div class="hdr-floor">
+        <span class="floor-num" id="floorTitle"><span id="floorNum">12</span><span class="unit" id="floorUnit">층</span></span>
+        <span class="floor-en" id="floorEn"></span>
+      </div>
+      <p class="hdr-say" id="hdrSay"></p>
+    </div>
+
+    <div class="body">
+      <div class="collect-lbl"><span class="spin"></span><span id="collectLbl"></span></div>
+      <p class="collect-sub" id="collectSub"></p>
+      <div class="checks" id="checks">
+        <div class="chk" data-state="pending"><span class="chk-ic"><span class="wait"></span><span class="ring"></span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="chk-txt"></span><span class="chk-meta"></span></div>
+        <div class="chk" data-state="pending"><span class="chk-ic"><span class="wait"></span><span class="ring"></span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="chk-txt"></span><span class="chk-meta"></span></div>
+        <div class="chk" data-state="pending"><span class="chk-ic"><span class="wait"></span><span class="ring"></span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="chk-txt"></span><span class="chk-meta"></span></div>
+        <div class="chk" data-state="pending"><span class="chk-ic"><span class="wait"></span><span class="ring"></span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="chk-txt"></span><span class="chk-meta"></span></div>
+      </div>
+      <div class="collect-foot"><div class="bar"><i id="collectBar"></i></div><span id="collectPct">0%</span></div>
+
+      <!-- false-alarm tab: available WHILE collecting (affected floor) -->
+      <div class="falsebar" id="falsebar" hidden>
+        <button class="falsebtn" id="falseBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17"/><path d="M16.95 16.95C16.36 19.27 14.39 21 12 21a6 6 0 0 1-6-6c0-1.45.66-2.85 1.5-4"/><path d="M10.1 5.9C11 4.5 12 3 12 3s5 6 5 11"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
+          <span id="falseBtnTxt"></span>
+        </button>
+      </div>
+
+      <!-- manual entry (far floor only — no auto switch) -->
+      <div class="ready" id="ready" hidden>
+        <button class="expand" id="expandBtn" type="button">
+          <span class="bic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>
+          <span class="btxt"><span class="bt" id="expandT"></span><span class="bs" id="expandS"></span></span>
+          <svg class="bchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+      </div>
+
+      <!-- reported confirmation -->
+      <div class="reported" id="reported">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <span class="rtxt" id="reportedTxt"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MAIN SCREEN (placeholder) ============ -->
+<div class="dash" id="dash" data-screen-label="02 Main screen" aria-hidden="true">
+  <div class="main-stub"><span class="main-stub-txt" id="mainStubTxt">메인 화면</span></div>
+</div>
+
+<!-- ============ YouTube-style timeline scrubber ============ -->
+<div class="scrubber" id="scrubber">
+  <button class="sc-btn sc-play" id="scPlay" type="button" aria-label="재생/일시정지">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+  </button>
+  <div class="sc-track" id="scTrack">
+    <div class="sc-rail"></div>
+    <div class="sc-fill" id="scFill"></div>
+    <div class="sc-handle" id="scHandle"></div>
+  </div>
+  <span class="sc-time" id="scTime">0:00 / 0:00</span>
+  <button class="sc-btn sc-restart" id="scRestart" type="button" aria-label="처음부터 다시 보기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 8 8 8"/></svg>
+  </button>
+</div>
+
+<!-- Tweaks -->
+<div class="tweaks" id="tweaks" role="dialog" aria-label="Tweaks">
+  <div class="tw-head"><div class="tw-title">Tweaks</div><button class="tw-close" id="twClose" type="button" aria-label="Close">×</button></div>
+  <div class="tw-body">
+    <div class="tw-row"><div class="tw-label" id="twScnLbl"></div>
+      <div class="tw-seg" data-tweak="scenario">
+        <button type="button" data-value="own" data-i18n="twScnOwn">내 집</button>
+        <button type="button" data-value="same" data-i18n="twScnSame">같은 층</button>
+        <button type="button" data-value="near" data-i18n="twScnNear">인접 층</button>
+        <button type="button" data-value="far" data-i18n="twScnFar">먼 층</button>
+      </div>
+      <div class="tw-note" id="twScnNote"></div>
+    </div>
+    <div class="tw-row"><div class="tw-label" id="twOriginLbl"></div>
+      <div class="tw-seg" data-tweak="origin">
+        <button type="button" data-value="unit" data-i18n="twOriginUnit">세대 화재</button>
+        <button type="button" data-value="hallway" data-i18n="twOriginHall">복도 화재</button>
+      </div>
+    </div>
+    <div class="tw-row"><div class="tw-label" id="twLangLbl"></div>
+      <div class="tw-seg" data-tweak="lang">
+        <button type="button" data-value="ko">한국어</button>
+        <button type="button" data-value="en">English</button>
+      </div>
+    </div>
+    <div class="tw-row"><div class="tw-label" id="twFloorLbl"></div>
+      <input class="tw-num" id="twFloor" type="number" min="1" max="28" />
+    </div>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.home-screen { overflow: hidden; cursor: pointer; user-select: none; background: radial-gradient(circle at 28% 30%, rgba(0,234,103,.08), transparent 28%), radial-gradient(circle at 82% 18%, rgba(91,141,239,.1), transparent 26%), #11141f; }
+.home-screen::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 4px); opacity: .4; }
+.home-header { position: absolute; z-index: 2; top: 42px; left: 58px; right: 58px; display: flex; align-items: center; justify-content: space-between; }
+.home-brand { display: flex; align-items: center; gap: 12px; color: #d7d9df; font-size: 15px; font-weight: 700; letter-spacing: .12em; }
+.home-brand > span { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+.home-brand small { padding: 5px 9px; border: 1px solid #363b47; border-radius: 999px; color: #9296a0; font-size: 11px; letter-spacing: .04em; }
+.home-header-state { display: flex; align-items: center; gap: 9px; color: #9296a0; font-size: 13px; font-weight: 600; }
+.home-header-state i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 7px var(--green); }
+
+.home-hero { position: absolute; top: 118px; left: 60px; width: 510px; }
+.home-date { margin: 0; color: #a4a7b0; font-size: 22px; font-weight: 500; }
+.home-hero h1 { margin: 3px 0 0; font-size: 132px; font-weight: 500; line-height: 1; letter-spacing: -.07em; }
+.home-greeting { margin: 20px 0 0; color: #d8dae0; font-size: 32px; font-weight: 500; letter-spacing: -.04em; }
+.home-weather { display: flex; align-items: center; gap: 18px; margin-top: 38px; }
+.weather-icon { display: grid; width: 74px; height: 74px; place-items: center; border: 1px solid rgba(252,211,77,.24); border-radius: 50%; color: #fcd34d; background: rgba(252,211,77,.08); font-size: 45px; box-shadow: 0 0 24px rgba(252,211,77,.08); }
+.home-weather div { display: grid; gap: 2px; }
+.home-weather strong { font-size: 42px; font-weight: 600; }
+.home-weather small { color: #9296a0; font-size: 15px; }
+
+.home-services { position: absolute; top: 120px; right: 56px; display: grid; grid-template-columns: repeat(2, 300px); gap: 18px; }
+.home-services article { position: relative; display: flex; align-items: center; height: 142px; padding: 22px; border: 1px solid #343946; border-radius: 18px; background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)); box-shadow: 0 20px 45px rgba(0,0,0,.18); }
+.service-icon { display: grid; width: 52px; height: 52px; flex: none; place-items: center; border: 1px solid rgba(0,234,103,.25); border-radius: 15px; color: var(--green); background: rgba(0,234,103,.08); font-size: 25px; font-weight: 800; }
+.service-copy { margin-left: 16px; }
+.service-copy h2 { margin: 0; font-size: 20px; font-weight: 600; }
+.service-copy p { margin: 6px 0 0; color: #8f939d; font-size: 13px; }
+.home-services article > span { position: absolute; right: 17px; bottom: 14px; color: var(--green); font-size: 11px; font-weight: 700; }
+
+.home-bottom { position: absolute; left: 58px; right: 58px; bottom: 67px; display: grid; grid-template-columns: repeat(3, 1fr); height: 124px; overflow: hidden; border: 1px solid #343946; border-radius: 18px; background: rgba(24,28,39,.78); }
+.home-bottom div { display: grid; align-content: center; padding: 0 30px; border-right: 1px solid #303541; }
+.home-bottom div:last-child { border-right: 0; }
+.home-bottom span { color: #8f939d; font-size: 13px; }
+.home-bottom strong { margin-top: 4px; font-size: 29px; font-weight: 600; }
+.home-bottom small { margin-top: 3px; color: #777b85; font-size: 12px; }
+.home-bottom .home-safe { color: var(--green); }
+.home-prototype-hint { position: absolute; bottom: 20px; left: 0; right: 0; margin: 0; color: #696d77; font-size: 12px; text-align: center; animation: home-hint-pulse 1.8s ease-in-out infinite; }
+@keyframes home-hint-pulse { 50% { opacity: .38; } }

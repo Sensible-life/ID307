@@ -1,0 +1,54 @@
+.emergency-screen { width: 100%; height: 100%; min-height: 0; overflow: hidden; background: #15171f; }
+.emergency-header { position: absolute; top: 40px; left: 50px; right: 53px; display: flex; align-items: center; }
+.emergency-header h1 { margin: 0 0 0 21px; font-size: 35px; font-weight: 600; line-height: 1.2; text-shadow: 0 0 3.5px #72c87a; }
+.emergency-header h1 strong { color: var(--green); }
+.emergency-header time { margin-left: auto; color: #f2ede9; font-size: 24px; font-weight: 600; }
+.emergency-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.emergency-back-link { position: absolute; z-index: 8; left: 23px; bottom: 8px; border: 0; background: transparent; color: #747781; font-size: 10px; opacity: .45; }
+
+.emergency-left { position: absolute; top: 123px; left: 23px; width: 647px; height: 652px; overflow: hidden; border-radius: 10px; }
+.emergency-left > h2 { position: absolute; top: 16px; left: 20px; margin: 0; font-size: 24px; font-weight: 500; letter-spacing: 1.2px; }
+.emergency-left > h2 strong { color: #fcd34d; font-weight: 500; }
+.emergency-map { position: absolute; top: 70px; left: 20px; width: 607px; height: 416px; overflow: hidden; border: 2.66px solid #2d333d; border-radius: 9px; }
+.emergency-map-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+.emergency-map-route { position: absolute; inset: 0; width: 100%; height: 100%; }
+.emergency-route-solid { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; filter: url(#emergency-route-glow); }
+.emergency-route-dashed { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 4; stroke-dasharray: 7 8; }
+.emergency-route-dot { fill: var(--green); }
+.emergency-eta { position: absolute; top: 26px; left: 317px; color: var(--green); font-size: 25px; font-weight: 500; text-shadow: 0 0 4px var(--green); }
+.emergency-station-label { position: absolute; top: 278px; left: 39px; font-size: 25px; font-weight: 500; }
+.emergency-building-label { position: absolute; top: 128px; right: 24px; font-size: 25px; font-weight: 500; line-height: 1.05; text-align: center; }
+.emergency-station-marker { position: absolute; top: 323px; left: 62px; display: grid; width: 54px; height: 54px; place-items: center; border: 3px solid #ef0010; border-radius: 50%; background: #fff; }
+.emergency-station-marker img { width: 41px; }
+
+.emergency-timeline { position: absolute; top: 514px; left: 12px; display: grid; grid-template-columns: repeat(4, 133.5px); column-gap: 30px; width: 624px; text-align: center; }
+.emergency-timeline::before { content: ""; position: absolute; top: 18px; left: 10px; right: 10px; height: 3px; background: linear-gradient(90deg, var(--green) 0 55%, #575b65 55%); box-shadow: 0 0 5px rgba(0,234,103,.4); }
+.emergency-timeline div { position: relative; z-index: 2; display: grid; justify-items: center; grid-template-rows: 37px 40px 30px; color: #cbced8; font-size: 18px; }
+.emergency-timeline i { display: grid; width: 36px; height: 37px; place-items: center; border: 2px solid var(--green); border-radius: 50%; background: #15171f; color: #fff; font-style: normal; }
+.emergency-timeline .complete i { background: var(--green); }
+.emergency-timeline span { align-self: center; }
+.emergency-timeline small { color: #75787c; font-size: 20px; }
+
+.emergency-select-card, .emergency-guide-card { position: absolute; left: 695px; width: 610px; overflow: hidden; border: 1px solid #3d4350; border-radius: 10px; background: #1b1c23; }
+.emergency-select-card { top: 124px; height: 317px; }
+.emergency-call-button { position: absolute; top: 21px; left: 27px; display: flex; align-items: center; justify-content: center; gap: 17px; width: 553px; height: 67px; border: 0; border-radius: 10px; background: #da0106; box-shadow: 0 0 11px rgba(255,255,255,.25); }
+.emergency-call-logo { display: grid; width: 75px; height: 39px; place-items: center; border-radius: 8px; background: #fff; }
+.emergency-call-logo img { width: 70px; }
+.emergency-call-button b { font-size: 36px; text-shadow: 0 0 6px rgba(255,255,255,.5); }
+.emergency-select-card h2 { position: absolute; top: 118px; left: 29px; margin: 0; font-size: 21px; font-weight: 500; letter-spacing: 1.06px; }
+.emergency-options { position: absolute; top: 157px; left: 58px; display: grid; grid-template-columns: repeat(2, 232px); gap: 20px 24px; }
+.emergency-options button { width: 232px; height: 53px; border: 2px solid #3d4350; border-radius: 30px; background: #1b1c23; font-size: 24px; font-weight: 500; }
+.emergency-options button.selected { border-color: transparent; background: rgba(218,1,6,.2); box-shadow: 0 0 6px #da0106; }
+
+.emergency-guide-card { top: 475px; height: 267px; }
+.emergency-guide-card > h2 { position: absolute; top: 30px; left: 27px; margin: 0; font-size: 21px; font-weight: 500; letter-spacing: 1.06px; }
+.emergency-urgent-guide { position: absolute; top: 74px; left: 26px; display: flex; align-items: center; width: 556px; height: 84px; padding: 12px 15px; border: 1px solid #6f0a0c; border-radius: 8px; background: rgba(203,21,21,.1); }
+.emergency-alert-icon { display: grid; width: 45px; height: 45px; flex: none; place-items: center; border-radius: 8px; background: #ff1836; }
+.emergency-alert-icon svg { width: 23px; }
+.emergency-urgent-guide p { display: grid; gap: 8px; margin: 0 0 0 15px; }
+.emergency-urgent-guide b { font-size: 17px; }
+.emergency-urgent-guide small { color: #e1e1e4; font-size: 12px; line-height: 1.25; }
+.emergency-done-guide { position: absolute; left: 29px; margin: 0; color: var(--green); font-size: 17px; }
+.emergency-done-guide span { margin-left: 16px; color: #8f9199; font-size: 14px; text-decoration: line-through; }
+.emergency-done-guide:nth-of-type(1) { top: 188px; }
+.emergency-done-guide:nth-of-type(2) { top: 220px; }
