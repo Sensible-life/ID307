@@ -2,10 +2,10 @@ import React from "react";
 import "./HomeScreen.css";
 
 const services = [
-  { icon: "⌂", title: "공동현관", detail: "출입 기록 없음", state: "정상" },
-  { icon: "□", title: "택배", detail: "보관함 1건", state: "도착" },
-  { icon: "P", title: "주차", detail: "B2 · 38번", state: "확인" },
-  { icon: "↯", title: "에너지", detail: "오늘 8.4 kWh", state: "절약 중" },
+  { icon: "⌂", title: "Lobby Door", detail: "No recent entry log", state: "Normal" },
+  { icon: "□", title: "Delivery", detail: "1 parcel stored", state: "Arrived" },
+  { icon: "P", title: "Parking", detail: "B2 · Spot 38", state: "Checked" },
+  { icon: "↯", title: "Energy", detail: "8.4 kWh today", state: "Saving" },
 ];
 
 export function HomeScreenContent({ showHint = true }) {
@@ -13,16 +13,16 @@ export function HomeScreenContent({ showHint = true }) {
     <>
       <header className="home-header">
         <div className="home-brand"><span />SEOCHO HANSHIN <small>1402</small></div>
-        <div className="home-header-state"><i />모든 시스템 정상</div>
+        <div className="home-header-state"><i />All systems normal</div>
       </header>
 
       <section className="home-hero">
-        <p className="home-date">6월 4일 목요일</p>
+        <p className="home-date">Thursday, June 4</p>
         <h1>19:41</h1>
-        <p className="home-greeting">편안한 저녁 보내세요.</p>
+        <p className="home-greeting">Have a calm evening.</p>
         <div className="home-weather">
           <span className="weather-icon">☾</span>
-          <div><strong>21°</strong><small>맑음 · 미세먼지 좋음</small></div>
+          <div><strong>21°</strong><small>Clear · Air quality good</small></div>
         </div>
       </section>
 
@@ -37,12 +37,12 @@ export function HomeScreenContent({ showHint = true }) {
       </section>
 
       <section className="home-bottom">
-        <div><span>실내</span><strong>24.2°</strong><small>습도 48%</small></div>
-        <div><span>현관문</span><strong className="home-safe">잠김</strong><small>18:32 마지막 출입</small></div>
-        <div><span>엘리베이터</span><strong>1층</strong><small>정상 운행</small></div>
+        <div><span>Indoor</span><strong>24.2°</strong><small>Humidity 48%</small></div>
+        <div><span>Front Door</span><strong className="home-safe">Locked</strong><small>Last entry 18:32</small></div>
+        <div><span>Elevator</span><strong>1F</strong><small>Operating normally</small></div>
       </section>
 
-      {showHint && <p className="home-prototype-hint">화면을 터치하면 재난 상황 프로토타입이 시작됩니다</p>}
+      {showHint && <p className="home-prototype-hint">Tap the screen to start the emergency prototype.</p>}
     </>
   );
 }
@@ -57,7 +57,7 @@ export default function HomeScreen({ onAlert }) {
       }}
       role="button"
       tabIndex={0}
-      aria-label="화면을 터치하여 재난 발생 프로토타입 시작"
+      aria-label="Tap the screen to start the emergency prototype"
     >
       <HomeScreenContent />
     </main>

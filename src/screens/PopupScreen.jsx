@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HomeScreenContent } from "./HomeScreen";
 import "./PopupScreen.css";
 
 const checks = [
-  ["감지기 신호 확인", "정상"],
-  ["발생 위치 특정", "5층 승강기 앞"],
-  ["주변 세대 응답 수집", "3세대"],
-  ["실제 화재 여부 교차 확인", "확인"],
+  ["Detector signal check", "Normal"],
+  ["Origin confirmation", "In front of the 5F elevator"],
+  ["Floor response check", "3 households responded"],
+  ["Control room verification", "Fire confirmed"],
 ];
 
 export default function PopupScreen({ onComplete }) {
   const [step, setStep] = useState(0);
 
+  useEffect(() => {
+    if (step >= checks.length) return undefined;
+    const timer = window.setTimeout(() => {
+      setStep((value) => Math.min(value + 1, checks.length));
+    }, 920);
+    return () => window.clearTimeout(timer);
+  }, [step]);
+
   const handleNext = () => {
-    if (step < checks.length) {
-      setStep((value) => value + 1);
-    }
+    if (step < checks.length) setStep((value) => Math.min(value + 1, checks.length));
   };
 
   return (
@@ -24,7 +30,7 @@ export default function PopupScreen({ onComplete }) {
       onClick={handleNext}
       role="button"
       tabIndex={0}
-      aria-label={step < checks.length ? "화면을 터치하여 다음 확인 단계로 이동" : "확인 완료"}
+      aria-label={step < checks.length ? "Tap the screen to continue to the next verification step" : "Verification complete"}
       onKeyDown={(event) => {
         if (step < checks.length && (event.key === "Enter" || event.key === " ")) handleNext();
       }}
@@ -35,33 +41,40 @@ export default function PopupScreen({ onComplete }) {
         </div>
       </div>
       <div className="popup-screen__scrim" aria-hidden="true" />
-      <section className="alert-card" aria-label="화재 경보 상황 확인">
-        <div className="alert-card__head">
-          <div className="danger-pill"><span />화재 경보 감지</div>
-          <div className="floor-mark"><strong>5</strong><span>층</span></div>
-          <h1>승강기 앞에서<br /><em>화재 신호</em>가 감지됐어요.</h1>
+      <section className="alert-card alert-card--v5" aria-label="Fire alarm status check">
+        <div className="alert-card__head alert-card__head--v5">
+          <div className="danger-pill danger-pill--v5"><span />Fire Alarm</div>
+          <div className="floor-mark floor-mark--v5">
+            <strong>5</strong><span>F</span>
+            <small>Building 101</small>
+          </div>
+          <h1 className="popup-headline">We are verifying the <em>fire on the 5th floor</em></h1>
+          <p className="popup-subheadline">The situation is being checked now.</p>
         </div>
-        <div className="alert-card__body">
-          <div className="checking-title"><span className="spinner" />상황 정보를 확인하고 있어요</div>
-          <p>잠시만 기다려 주세요. 확인이 끝나면 대피 안내 화면으로 전환됩니다.</p>
+        <div className="alert-card__body alert-card__body--v5">
+          <p className="popup-action">Please wait a moment.<br></br> Once verification is complete, this will switch to evacuation guidance.</p>
           <ul className="check-list">
             {checks.map(([title, meta], index) => (
               <li className={index < step ? "done" : index === step ? "checking" : ""} key={title}>
-                <span className="check-icon">{index < step ? "✓" : ""}</span>
-                <span>{title}</span>
-                <small>{index < step ? meta : index === step ? "확인 중" : "대기"}</small>
+                <span className="check-icon">
+                  <span className="check-icon-wait" />
+                  <span className="check-icon-ring" />
+                  <span className="check-icon-tick">✓</span>
+                </span>
+                <span className="check-title">{title}</span>
+                <small>{index < step ? meta : index === step ? "Checking" : "Pending"}</small>
               </li>
             ))}
           </ul>
           <div className="progress"><i style={{ width: `${Math.min(step / checks.length, 1) * 100}%` }} /></div>
           {step < checks.length ? (
-            <p className="touch-hint">화면을 터치해 계속하세요</p>
+            <p className="touch-hint">Tap the screen to continue</p>
           ) : (
             <button className="complete-button" onClick={(event) => {
               event.stopPropagation();
               onComplete();
             }}>
-              대피 안내 화면 보기
+              Open evacuation guidance
             </button>
           )}
         </div>
