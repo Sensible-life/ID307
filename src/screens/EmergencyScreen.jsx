@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import logo119 from "../../119.png";
+import routeMapImage from "../../Map2.png";
 import warningIcon from "../../Warning.png";
 import "./EmergencyScreen.css";
 
@@ -10,10 +12,10 @@ const quickActions = [
 
 function RouteMap() {
   return (
-    <div className="emergency-map-shell">
+      <div className="emergency-map-shell">
       <div className="emergency-map-title">MAP</div>
       <div className="emergency-map">
-        <img className="emergency-map-image" src="/Map2.png" alt="Rescue team route map" />
+        <img className="emergency-map-image" src={routeMapImage} alt="Rescue team route map" />
         <svg className="emergency-map-route" viewBox="0 0 607 416" aria-hidden="true">
           <defs>
             <filter id="emergency-route-glow">
@@ -29,7 +31,7 @@ function RouteMap() {
         <span className="emergency-eta">ETA 03:00</span>
         <span className="emergency-station-label">DOGOK 119</span>
         <span className="emergency-building-label">Seocho<br />Hanshin</span>
-        <span className="emergency-station-marker"><img src="/119.png" alt="" /></span>
+        <span className="emergency-station-marker"><img src={logo119} alt="" /></span>
       </div>
     </div>
   );
@@ -126,7 +128,7 @@ export default function EmergencyScreen({ onBack }) {
           <div className="emergency-call-modal__card">
             <div className="emergency-call-modal__badge">CALL CONNECTING</div>
             <div className="emergency-call-modal__icon">
-              <img src="/119.png" alt="119" />
+              <img src={logo119} alt="119" />
             </div>
             <h2>Dogok 119 Rescue Team</h2>
             <p>Direct call is connecting now...</p>

@@ -1,5 +1,7 @@
 import React from "react";
 import TopBar from "../components/TopBar";
+import logo119 from "../../119.png";
+import floorMap from "../../Map.png";
 import "./MainScreen.css";
 
 function RescueButton({ rescueState, onCall, onViewEmergency }) {
@@ -15,7 +17,7 @@ function RescueButton({ rescueState, onCall, onViewEmergency }) {
       onClick={handleClick}
       disabled={isLoading}
     >
-      <span className="main-call-logo"><img src="/119.png" alt="119" /></span>
+      <span className="main-call-logo"><img src={logo119} alt="119" /></span>
       <span className="call-copy">
         <b>{title}</b>
         <small>{subtitle}</small>
@@ -34,7 +36,7 @@ export default function MainScreen({ rescueState = "idle", onCall, onViewEmergen
         <RescueButton rescueState={rescueState} onCall={onCall} onViewEmergency={onViewEmergency} />
       </section>
       <section className="map-panel">
-        <img src="/Map.png" alt="Evacuation route map for the 5th floor" />
+        <img src={floorMap} alt="Evacuation route map for the 5th floor" />
       </section>
       <svg className="route-overlay" viewBox="0 0 150 180" aria-hidden="true">
         <defs>
