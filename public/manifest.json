@@ -21,6 +21,6 @@
   "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#11141f",
   "theme_color": "#11141f",
-  "orientation": "portrait",
+  "orientation": "landscape",
   "lang": "en"
 }
