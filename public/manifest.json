@@ -1,0 +1,16 @@
+{
+  "short_name": "Evac Guide",
+  "name": "ID307 Fire Evacuation Guide",
+  "icons": [
+    {
+      "src": "/main.png",
+      "sizes": "2680x1600",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#11141f",
+  "theme_color": "#11141f",
+  "orientation": "portrait"
+}
