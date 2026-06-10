@@ -1,0 +1,26 @@
+{
+  "short_name": "대피 안내",
+  "name": "ID307 화재 대피 안내",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/ko.html",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#11141f",
+  "theme_color": "#11141f",
+  "orientation": "landscape",
+  "lang": "ko"
+}
